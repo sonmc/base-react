@@ -56,3 +56,72 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+# The project structure
+
+├───public
+│   └───%PUBLIC_URL%
+└───src
+    ├───assets
+    │   ├───fonts
+    │   ├───icons
+    │   ├───images
+    │   │   ├───brands
+    │   │   ├───companies
+    │   │   ├───flags
+    │   │   ├───products
+    │   │   ├───small
+    │   │   ├───svg
+    │   │   │   └───crypto-icons
+    │   │   ├───sweetalert2
+    │   │   └───users
+    │   └───scss
+    │       ├───components
+    │       ├───config
+    │       │   ├───creative
+    │       │   ├───default
+    │       │   ├───interactive
+    │       │   ├───material
+    │       │   ├───minimal
+    │       │   ├───modern
+    │       │   └───saas
+    │       ├───fonts
+    │       ├───pages
+    │       ├───plugins
+    │       │   └───icons
+    │       └───structure
+    ├───Components
+    │   ├───Common
+    │   ├───constants
+    │   └───Hooks
+    ├───Constant
+    ├───helpers
+    │   └───jwt-token-access
+    ├───Layouts
+    │   ├───HorizontalLayout
+    │   └───VerticalLayouts
+    ├───pages
+    │   ├───Authentication
+    │   ├───ChangePassword
+    │   ├───Departments
+    │   │   ├───AddMemberModal
+    │   │   └───UpdateModal
+    │   ├───Reports
+    │   ├───Roles
+    │   │   ├───ConfirmDelete
+    │   │   ├───FormUpdate
+    │   │   └───RolePems
+    │   ├───Tasks
+    │   │   ├───TaskList
+    │   │   └───TaskModal
+    │   ├───Users
+    │   │   └───FormUpdate
+    │   └───Workspaces
+    │       └───FormUpdate
+    ├───Recoil
+    │   └───states
+    ├───Routes
+    ├───Services
+    └───store
+        └───layouts
