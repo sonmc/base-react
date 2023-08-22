@@ -1,26 +1,18 @@
+import Login from 'pages/authentication/Login';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Login from '../pages/Authentication/Login';
-import UserPage from '../pages/Users';
-import DepartmentPage from '../pages/Departments';
-import WorkspacePage from '../pages/Workspaces';
-import RolePage from '../pages/Roles';
-import TaskPage from '../pages/Tasks/TaskList';
-import ReportPage from '../pages/Reports';
-import ChangePasswordPage from '../pages/ChangePassword';
+import Loadable from 'components/Loadable';
+import { lazy } from 'react';
+
+const DashboardPage = Loadable(lazy(() => import('pages/dashboard')));
+
 const authProtectedRoutes = [
-    { path: '/workspaces', component: WorkspacePage },
-    { path: '/departments', component: DepartmentPage },
-    { path: '/tasks', component: TaskPage },
-    { path: '/users', component: UserPage },
-    { path: '/roles', component: RolePage },
-    { path: '/reports', component: ReportPage },
-    { path: '/change-password', component: ChangePasswordPage },
-    {
-        path: '/',
-        exact: true,
-        component: () => <Redirect to="/tasks" />,
-    },
+  { path: '/dashbard', component: DashboardPage },
+  {
+    path: '/',
+    exact: true,
+    component: () => <Redirect to="/dashbard" />
+  }
 ];
 
 const publicRoutes = [{ path: '/login', component: Login }];

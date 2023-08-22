@@ -1,116 +1,86 @@
 {
-    "name": "velzon-react",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "@asseinfo/react-kanban": "^2.2.0",
-        "@ckeditor/ckeditor5-build-classic": "^32.0.0",
-        "@ckeditor/ckeditor5-react": "^6.0.0",
-        "@ckeditor/ckeditor5-upload": "^37.0.1",
-        "@lourenci/react-kanban": "^2.1.0",
-        "axios": "^0.26.0",
-        "axios-mock-adapter": "^1.21.4",
-        "bootstrap": "^5.1.3",
-        "env-cmd": "^10.1.0",
-        "eslint": "^8.9.0",
-        "feather-icons-react": "^0.5.0",
-        "formik": "^2.2.9",
-        "gridjs": "^5.0.2",
-        "gridjs-react": "^5.0.2",
-        "moment": "^2.29.4",
-        "sass": "^7.0.1",
-        "prismjs": "^1.26.0",
-        "react": "^17.0.2",
-        "apexcharts": "^3.33.1",
-        "react-apexcharts": "^1.3.9",
-        "react-big-calendar": "^1.6.9",
-        "react-countup": "^6.1.1",
-        "react-dom": "^17.0.2",
-        "react-dual-listbox": "^2.2.0",
-        "react-flatpickr": "^3.10.13",
-        "react-i18next": "^12.2.0",
-        "react-meta-tags": "^1.0.1",
-        "react-router-dom": "^5.2.0",
-        "react-scripts": "5.0.0",
-        "react-select": "^5.7.0",
-        "react-table": "^7.7.0",
-        "react-toastify": "^9.1.2",
-        "react-tsparticles": "^1.40.0",
-        "reactstrap": "^9.0.1",
-        "recoil": "^0.7.6",
-        "redux-saga": "^1.2.3",
-        "simplebar-react": "^2.3.6",
-        "socket.io-client": "^4.6.1",
-        "swiper": "^8.0.6",
-        "web-vitals": "^2.1.4",
-        "yup": "^0.32.11"
-    },
-    "scripts": {
-        "start": "env-cmd -f .env react-scripts start",
-        "build": "env-cmd -f .env react-scripts build --max_old_space_size=8000 build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "lint": "eslint .",
-        "lint:fix": "eslint --fix .",
-        "format": "prettier --write \"**/*.{js,jsx,json,md,html,css,less,scss}\""
-    },
-    "babelOptions": {
-        "presets": [
-            "@babel/preset-react"
-        ]
-    },
-    "eslintConfig": {
-        "extends": [
-            "eslint:recommended",
-            "plugin:react/recommended",
-            "react-app"
-        ],
-        "parser": "@babel/eslint-parser",
-        "parserOptions": {
-            "requireConfigFile": false,
-            "ecmaVersion": 2020,
-            "sourceType": "module",
-            "ecmaFeatures": {
-                "jsx": true
-            }
-        },
-        "env": {
-            "browser": true,
-            "es6": true
-        },
-        "globals": {
-            "$": true
-        },
-        "settings": {
-            "react": {
-                "version": "^17.0.1"
-            }
-        },
-        "rules": {
-            "semi": 0,
-            "react/no-unescaped-entities": 0,
-            "react/react-in-jsx-scope": "off",
-            "react/prop-types": "off",
-            "no-unused-vars": "off",
-            "no-extra-boolean-cast": 0
-        }
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "resolutions": {
-        "moment": "2.29.1"
-    },
-    "devDependencies": {
-        "babel-plugin-prismjs": "^2.1.0"
-    }
+  "name": "online-shop-admin",
+  "version": "1.1.2",
+  "private": true,
+  "dependencies": {
+    "@ant-design/colors": "^6.0.0",
+    "@ant-design/icons": "^4.7.0",
+    "@emotion/cache": "^11.10.3",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/lab": "^5.0.0-alpha.100",
+    "@mui/material": "^5.10.6",
+    "@reduxjs/toolkit": "^1.8.5",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "formik": "^2.2.9",
+    "framer-motion": "^7.3.6",
+    "history": "^5.3.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-device-detect": "^2.2.2",
+    "react-dom": "^18.2.0",
+    "react-element-to-jsx-string": "^15.0.0",
+    "react-number-format": "^4.9.4",
+    "react-perfect-scrollbar": "^1.5.8",
+    "react-redux": "^8.0.4",
+    "react-router": "^6.4.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^5.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "react-window": "^1.8.7",
+    "recoil": "^0.7.7",
+    "redux": "^4.2.0",
+    "simplebar": "^5.3.8",
+    "simplebar-react": "^2.4.1",
+    "typescript": "4.8.3",
+    "web-vitals": "^3.0.2",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/eslint-parser": "^7.21.3",
+    "axios": "^0.26.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.7"
+  }
 }

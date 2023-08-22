@@ -1,141 +1,182 @@
-import React, { useState } from 'react';
-import MetaTags from 'react-meta-tags';
-import { Card, CardBody, Col, Container, Input, Label, Row, Button, Form, FormFeedback } from 'reactstrap';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
+
+// project import
+import { Formik } from 'formik';
+import { Link as RouterLink } from 'react-router-dom';
+import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import AnimateButton from 'components/@extended/AnimateButton';
 import * as Yup from 'yup';
-import { useFormik } from 'formik';
+// material-ui
+import {
+  Button,
+  FormHelperText,
+  Grid,
+  Link,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Stack,
+  Typography
+} from '@mui/material';
+
 import { useHistory } from 'react-router-dom';
-import { Login as OnLogin } from 'src/Services/auth.service';
-import { GetCurrentUser } from 'src/Services/user.service';
-import { useRecoilState } from 'recoil';
-import { currentUserAtom } from 'src/Recoil/states/users';
 
-const LoginPage = () => {
-    const history = useHistory();
-    const [user, setCurrentUser] = useRecoilState(currentUserAtom);
-    const [isShow, setIsShow] = useState(false);
-    const [isLoginFalse, setLoginFalse] = useState(false);
+import AuthWrapper from 'components/auth/AuthWrapper';
 
-    const validation = useFormik({
-        enableReinitialize: true,
-        initialValues: {
-            username: '',
-            full_name: '',
-            password: '',
-        },
-        validationSchema: Yup.object({
-            username: Yup.string().required('Vui lòng nhập tên đăng nhập'),
-            password: Yup.string().required('Vui lòng nhập mật khẩu'),
-        }),
-        onSubmit: (values) => {
-            setLoginFalse(false);
-            OnLogin(values)
+import { Login as OnLogin } from 'services/auth.service';
+import { GetCurrentUser } from 'services/user.service';
+import { CURRENT_USER } from 'business/rule/index';
+
+// ================================|| LOGIN ||================================ //
+
+const Login = () => {
+  const history = useHistory();
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const setCurrentUser = (user) => {
+    localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+  };
+
+  return (
+    <AuthWrapper>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Stack direction="row" justifyContent="space-between" alignItems="baseline" sx={{ mb: { xs: -0.5, sm: 0.5 } }}>
+            <Typography variant="h3">Login</Typography>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <Formik
+            initialValues={{
+              username: '',
+              password: ''
+            }}
+            validationSchema={Yup.object().shape({
+              username: Yup.string().min(2).required('Enter your account'),
+              password: Yup.string().max(255).required('Enter your password')
+            })}
+            onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+              setStatus({ success: false });
+              setSubmitting(false);
+              OnLogin(values)
                 .then((res) => {
-                    if (res) {
-                        GetCurrentUser().then((user) => {
-                            setCurrentUser(user);
-                            let route = '';
-                            const admin = user.group_ids === '[1]';
-                            const staff = user.group_ids === '[2]';
-                        
-                            if (admin) {
-                                route = '/departments';
-                            }
-                            if (staff) {
-                                route = '/tasks';
-                            }
-                            history.push(route);
-                        });
-                    }
+                  if (res) {
+                    GetCurrentUser().then((user) => {
+                      setCurrentUser(user);
+                      history.push('/');
+                    });
+                  }
                 })
                 .catch((err) => {
-                    setLoginFalse(true);
+                  setStatus({ success: false });
+                  setErrors({ submit: err.message });
+                  setSubmitting(false);
                 });
-        },
-    });
-    return (
-        <React.Fragment>
-            <div className="auth-page-content">
-                <MetaTags>
-                    <title>Base core | login</title>
-                </MetaTags>
-                <Container>
-                    <Row>
-                        <Col lg={12}>
-                            <div className="text-center mt-sm-5 mb-4 text-white-50">
-                                <p className="mt-3 fs-15 fw-medium"></p>
-                            </div>
-                        </Col>
-                    </Row>
+            }}
+          >
+            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+              <form noValidate onSubmit={handleSubmit}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <Stack spacing={1}>
+                      <InputLabel htmlFor="email-login">Username</InputLabel>
+                      <OutlinedInput
+                        id="username-login"
+                        type="text"
+                        value={values.username}
+                        name="username"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        placeholder="Enter your account"
+                        fullWidth
+                        error={Boolean(touched.username && errors.username)}
+                      />
+                      {touched.username && errors.username && (
+                        <FormHelperText error id="standard-weight-helper-text-username-login">
+                          {errors.username}
+                        </FormHelperText>
+                      )}
+                    </Stack>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Stack spacing={1}>
+                      <InputLabel htmlFor="password-login">Password</InputLabel>
+                      <OutlinedInput
+                        fullWidth
+                        error={Boolean(touched.password && errors.password)}
+                        id="-password-login"
+                        type={showPassword ? 'text' : 'password'}
+                        value={values.password}
+                        name="password"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                              size="large"
+                            >
+                              {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        placeholder="Enter password"
+                      />
+                      {touched.password && errors.password && (
+                        <FormHelperText error id="standard-weight-helper-text-password-login">
+                          {errors.password}
+                        </FormHelperText>
+                      )}
+                    </Stack>
+                  </Grid>
 
-                    <Row className="justify-content-center mt-5">
-                        <Col md={8} lg={6} xl={5}>
-                            <Card className="mt-4">
-                                <CardBody className="p-4">
-                                    <div className="text-center mt-2">
-                                        <h5 className="text-primary">Base core</h5>
-                                        {isLoginFalse && <p className=" text-danger">Sai tài khoản hoặc mật khẩu !</p>}
-                                    </div>
-                                    <div className="p-2 mt-4">
-                                        <Form
-                                            onSubmit={(e) => {
-                                                e.preventDefault();
-                                                validation.handleSubmit();
-                                                return false;
-                                            }}
-                                            action="#"
-                                        >
-                                            <div className="mb-3">
-                                                <Label htmlFor="username" className="form-label">
-                                                    Tài khoản
-                                                </Label>
-                                                <Input name="username" className="form-control" type="text" onChange={validation.handleChange} onBlur={validation.handleBlur} value={validation.values.username || ''} invalid={validation.touched.email && validation.errors.username ? true : false} />
-                                                {validation.touched.username && validation.errors.username ? <FormFeedback type="invalid">{validation.errors.username}</FormFeedback> : null}
-                                            </div>
-
-                                            <div className="mb-3">
-                                                <Label className="form-label" htmlFor="password-input">
-                                                    Mật khẩu
-                                                </Label>
-                                                <div className="position-relative auth-pass-inputgroup mb-3">
-                                                    <Input
-                                                        name="password"
-                                                        value={validation.values.password || ''}
-                                                        type={isShow ? 'text' : 'password'}
-                                                        className="form-control pe-5"
-                                                        onChange={validation.handleChange}
-                                                        onBlur={validation.handleBlur}
-                                                        invalid={validation.touched.password && validation.errors.password ? true : false}
-                                                    />
-                                                    {validation.touched.password && validation.errors.password ? <FormFeedback type="invalid">{validation.errors.password}</FormFeedback> : null}
-                                                    <button
-                                                        className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted mx-3"
-                                                        type="button"
-                                                        id="password-addon"
-                                                        onClick={() => {
-                                                            setIsShow((x) => !x);
-                                                        }}
-                                                    >
-                                                        {isShow ? <i className="ri-eye-off-fill align-middle"></i> : <i className="ri-eye-fill align-middle"></i>}
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div className="mt-4">
-                                                <Button color="success" className="btn btn-success w-100" type="submit">
-                                                    Đăng nhập
-                                                </Button>
-                                            </div>
-                                        </Form>
-                                    </div>
-                                </CardBody>
-                            </Card>
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
-        </React.Fragment>
-    );
+                  <Grid item xs={12} sx={{ mt: -1 }}>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                      <Link variant="h6" component={RouterLink} to="" color="text.primary">
+                        Forgot Password?
+                      </Link>
+                    </Stack>
+                  </Grid>
+                  {errors.submit && (
+                    <Grid item xs={12}>
+                      <FormHelperText error>{errors.submit}</FormHelperText>
+                    </Grid>
+                  )}
+                  <Grid item xs={12}>
+                    <AnimateButton>
+                      <Button
+                        disableElevation
+                        disabled={isSubmitting}
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                      >
+                        Login
+                      </Button>
+                    </AnimateButton>
+                  </Grid>
+                </Grid>
+              </form>
+            )}
+          </Formik>
+        </Grid>
+      </Grid>
+    </AuthWrapper>
+  );
 };
-
-export default withRouter(LoginPage);
+export default Login;
